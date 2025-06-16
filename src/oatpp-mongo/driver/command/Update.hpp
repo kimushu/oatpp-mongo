@@ -32,8 +32,8 @@
 #include "oatpp-mongo/driver/wire/OpMsg.hpp"
 #include "oatpp-mongo/bson/mapping/ObjectMapper.hpp"
 
-#include "oatpp/core/Types.hpp"
-#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/Types.hpp"
+#include "oatpp/macro/codegen.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace command {
 

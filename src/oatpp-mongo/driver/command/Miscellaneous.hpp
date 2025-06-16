@@ -26,8 +26,8 @@
 #ifndef oatpp_mongo_driver_command_Miscellaneous_hpp
 #define oatpp_mongo_driver_command_Miscellaneous_hpp
 
-#include "oatpp/core/Types.hpp"
-#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/Types.hpp"
+#include "oatpp/macro/codegen.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace command {
 

@@ -43,7 +43,7 @@ void MessageHeader::writeToStream(data::stream::ConsistentOutputStream* stream) 
   bson::Utils::writeInt32(stream, opCode);
 }
 
-bool MessageHeader::readFromCaret(parser::Caret& caret) {
+bool MessageHeader::readFromCaret(utils::parser::Caret& caret) {
   messageLength = bson::Utils::readInt32(caret);
   requestId = bson::Utils::readInt32(caret);
   responseTo = bson::Utils::readInt32(caret);

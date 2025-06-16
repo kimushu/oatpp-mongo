@@ -28,9 +28,9 @@
 
 #include "oatpp-mongo/bson/Utils.hpp"
 
-#include "oatpp/core/parser/Caret.hpp"
-#include "oatpp/core/utils/ConversionUtils.hpp"
-#include "oatpp/core/Types.hpp"
+#include "oatpp/utils/parser/Caret.hpp"
+#include "oatpp/utils/Conversion.hpp"
+#include "oatpp/Types.hpp"
 
 namespace oatpp { namespace mongo { namespace bson { namespace mapping {
 
@@ -78,7 +78,7 @@ public:
   };
 
 public:
-  typedef oatpp::Void (*DeserializerMethod)(Deserializer*, parser::Caret&, const Type* const, v_char8 bsonTypeCode);
+  typedef oatpp::Void (*DeserializerMethod)(Deserializer*, utils::parser::Caret&, const Type* const, v_char8 bsonTypeCode);
 private:
   struct PolymorphData {
     oatpp::BaseObject::Property* field;
@@ -86,14 +86,14 @@ private:
     v_char8 valueType;
   };
 private:
-  static void skipCString(parser::Caret& caret);
-  static void skipSizedElement(parser::Caret& caret, v_int32 additionalBytes = 0);
-  static void skipElement(parser::Caret& caret, v_char8 bsonTypeCode);
+  static void skipCString(utils::parser::Caret& caret);
+  static void skipSizedElement(utils::parser::Caret& caret, v_int32 additionalBytes = 0);
+  static void skipElement(utils::parser::Caret& caret, v_char8 bsonTypeCode);
   static const Type* guessType(v_char8 bsonTypeCode);
 private:
 
   template<class T>
-  static oatpp::Void deserializePrimitive(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode){
+  static oatpp::Void deserializePrimitive(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode){
 
     (void) deserializer;
     (void) type;
@@ -108,20 +108,20 @@ private:
 
   }
 
-  static oatpp::Void deserializeBoolean(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
-  static oatpp::Void deserializeDateTime(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
-  static oatpp::Void deserializeString(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeBoolean(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeDateTime(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeString(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
-  static oatpp::Void deserializeInlineDocs(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeInlineDocs(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
-  static oatpp::Void deserializeObjectId(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeObjectId(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
-  static oatpp::Void deserializeAny(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
-  static oatpp::Void deserializeEnum(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeAny(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeEnum(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
-  static oatpp::Void deserializeCollection(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
-  static oatpp::Void deserializeMap(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
-  static oatpp::Void deserializeObject(Deserializer* deserializer, parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeCollection(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeMap(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  static oatpp::Void deserializeObject(Deserializer* deserializer, utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
 private:
   std::shared_ptr<Config> m_config;
@@ -136,18 +136,18 @@ public:
 
   /**
    * Set deserializer method for type.
-   * @param classId - &id:oatpp::data::mapping::type::ClassId;.
-   * @param method - `typedef oatpp::Void (*DeserializerMethod)(Deserializer*, parser::Caret&, const Type* const)`.
+   * @param classId - &id:oatpp::data::type::ClassId;.
+   * @param method - `typedef oatpp::Void (*DeserializerMethod)(Deserializer*, utils::parser::Caret&, const Type* const)`.
    */
-  void setDeserializerMethod(const data::mapping::type::ClassId& classId, DeserializerMethod method);
+  void setDeserializerMethod(const data::type::ClassId& classId, DeserializerMethod method);
 
   /**
    * Deserialize text.
-   * @param caret - &id:oatpp::parser::Caret;.
-   * @param type - &id:oatpp::data::mapping::type::Type;
+   * @param caret - &id:oatpp::utils::parser::Caret;.
+   * @param type - &id:oatpp::data::type::Type;
    * @return - `oatpp::Void` over deserialized object.
    */
-  oatpp::Void deserialize(parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
+  oatpp::Void deserialize(utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode);
 
   /**
    * Get deserializer config.

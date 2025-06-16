@@ -26,7 +26,7 @@
 #ifndef oatpp_mongo_bson_type_ObjectId_hpp
 #define oatpp_mongo_bson_type_ObjectId_hpp
 
-#include "oatpp/core/Types.hpp"
+#include "oatpp/Types.hpp"
 #include <atomic>
 
 namespace oatpp { namespace mongo { namespace bson { namespace type {

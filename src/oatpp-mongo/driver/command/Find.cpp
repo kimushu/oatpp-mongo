@@ -27,7 +27,7 @@
 
 #include "oatpp-mongo/driver/wire/Message.hpp"
 
-#include "oatpp/core/data/stream/BufferStream.hpp"
+#include "oatpp/data/stream/BufferStream.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace command {
 

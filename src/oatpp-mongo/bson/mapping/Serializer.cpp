@@ -25,7 +25,7 @@
 
 #include "Serializer.hpp"
 
-#include "oatpp/core/parser/Caret.hpp"
+#include "oatpp/utils/parser/Caret.hpp"
 
 namespace oatpp { namespace mongo { namespace bson { namespace mapping {
 
@@ -33,39 +33,39 @@ Serializer::Serializer(const std::shared_ptr<Config>& config)
   : m_config(config)
 {
 
-  m_methods.resize(data::mapping::type::ClassId::getClassCount(), nullptr);
+  m_methods.resize(data::type::ClassId::getClassCount(), nullptr);
 
-  setSerializerMethod(data::mapping::type::__class::String::CLASS_ID, &Serializer::serializeString);
+  setSerializerMethod(data::type::__class::String::CLASS_ID, &Serializer::serializeString);
 
-  setSerializerMethod(data::mapping::type::__class::Int8::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int8>);
-  setSerializerMethod(data::mapping::type::__class::UInt8::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt8>);
+  setSerializerMethod(data::type::__class::Int8::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int8>);
+  setSerializerMethod(data::type::__class::UInt8::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt8>);
 
-  setSerializerMethod(data::mapping::type::__class::Int16::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int16>);
-  setSerializerMethod(data::mapping::type::__class::UInt16::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt16>);
+  setSerializerMethod(data::type::__class::Int16::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int16>);
+  setSerializerMethod(data::type::__class::UInt16::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt16>);
 
-  setSerializerMethod(data::mapping::type::__class::Int32::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int32>);
-  setSerializerMethod(data::mapping::type::__class::UInt32::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt32>);
+  setSerializerMethod(data::type::__class::Int32::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int32>);
+  setSerializerMethod(data::type::__class::UInt32::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt32>);
 
-  setSerializerMethod(data::mapping::type::__class::Int64::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int64>);
-  setSerializerMethod(data::mapping::type::__class::UInt64::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt64>);
+  setSerializerMethod(data::type::__class::Int64::CLASS_ID, &Serializer::serializePrimitive<oatpp::Int64>);
+  setSerializerMethod(data::type::__class::UInt64::CLASS_ID, &Serializer::serializePrimitive<oatpp::UInt64>);
 
-  setSerializerMethod(data::mapping::type::__class::Float32::CLASS_ID, &Serializer::serializePrimitive<oatpp::Float32>);
-  setSerializerMethod(data::mapping::type::__class::Float64::CLASS_ID, &Serializer::serializePrimitive<oatpp::Float64>);
-  setSerializerMethod(data::mapping::type::__class::Boolean::CLASS_ID, &Serializer::serializePrimitive<oatpp::Boolean>);
+  setSerializerMethod(data::type::__class::Float32::CLASS_ID, &Serializer::serializePrimitive<oatpp::Float32>);
+  setSerializerMethod(data::type::__class::Float64::CLASS_ID, &Serializer::serializePrimitive<oatpp::Float64>);
+  setSerializerMethod(data::type::__class::Boolean::CLASS_ID, &Serializer::serializePrimitive<oatpp::Boolean>);
 
-  setSerializerMethod(data::mapping::type::__class::Any::CLASS_ID, &Serializer::serializeAny);
-  setSerializerMethod(data::mapping::type::__class::AbstractEnum::CLASS_ID, &Serializer::serializeEnum);
-  setSerializerMethod(data::mapping::type::__class::AbstractObject::CLASS_ID, &Serializer::serializeObject);
+  setSerializerMethod(data::type::__class::Any::CLASS_ID, &Serializer::serializeAny);
+  setSerializerMethod(data::type::__class::AbstractEnum::CLASS_ID, &Serializer::serializeEnum);
+  setSerializerMethod(data::type::__class::AbstractObject::CLASS_ID, &Serializer::serializeObject);
 
   //----------------
   // Collections
 
-  setSerializerMethod(data::mapping::type::__class::AbstractVector::CLASS_ID, &Serializer::serializeCollection);
-  setSerializerMethod(data::mapping::type::__class::AbstractList::CLASS_ID, &Serializer::serializeCollection);
-  setSerializerMethod(data::mapping::type::__class::AbstractUnorderedSet::CLASS_ID, &Serializer::serializeCollection);
+  setSerializerMethod(data::type::__class::AbstractVector::CLASS_ID, &Serializer::serializeCollection);
+  setSerializerMethod(data::type::__class::AbstractList::CLASS_ID, &Serializer::serializeCollection);
+  setSerializerMethod(data::type::__class::AbstractUnorderedSet::CLASS_ID, &Serializer::serializeCollection);
 
-  setSerializerMethod(data::mapping::type::__class::AbstractPairList::CLASS_ID, &Serializer::serializeMap);
-  setSerializerMethod(data::mapping::type::__class::AbstractUnorderedMap::CLASS_ID, &Serializer::serializeMap);
+  setSerializerMethod(data::type::__class::AbstractPairList::CLASS_ID, &Serializer::serializeMap);
+  setSerializerMethod(data::type::__class::AbstractUnorderedMap::CLASS_ID, &Serializer::serializeMap);
 
   //----------------
   // Other
@@ -79,7 +79,7 @@ Serializer::Serializer(const std::shared_ptr<Config>& config)
 
 }
 
-void Serializer::setSerializerMethod(const data::mapping::type::ClassId& classId, SerializerMethod method) {
+void Serializer::setSerializerMethod(const data::type::ClassId& classId, SerializerMethod method) {
   const v_uint32 id = classId.id;
   if(id >= m_methods.size()) {
     m_methods.resize(id + 1, nullptr);
@@ -149,7 +149,7 @@ void Serializer::serializeInlineDocs(Serializer* serializer,
       throw std::runtime_error("[oatpp::mongo::bson::mapping::Serializer::serializeInlineDocs()]: Error. Invalid inline object size.");
     }
 
-    oatpp::parser::Caret caret(str->data(), str->size());
+    oatpp::utils::parser::Caret caret(str->data(), str->size());
     v_int32 inlineSize = bson::Utils::readInt32(caret);
 
     if(inlineSize != str->size()) {
@@ -213,7 +213,7 @@ void Serializer::serializeAny(Serializer* serializer,
 
   if(polymorph) {
 
-    auto anyHandle = static_cast<data::mapping::type::AnyHandle*>(polymorph.get());
+    auto anyHandle = static_cast<data::type::AnyHandle*>(polymorph.get());
     serializer->serialize(stream, key, oatpp::Void(anyHandle->ptr, anyHandle->type));
 
   } else if(key) {
@@ -230,19 +230,19 @@ void Serializer::serializeEnum(Serializer* serializer,
                                const oatpp::Void& polymorph)
 {
 
-  auto polymorphicDispatcher = static_cast<const data::mapping::type::__class::AbstractEnum::PolymorphicDispatcher*>(
+  auto polymorphicDispatcher = static_cast<const data::type::__class::AbstractEnum::PolymorphicDispatcher*>(
     polymorph.getValueType()->polymorphicDispatcher
   );
 
-  data::mapping::type::EnumInterpreterError e = data::mapping::type::EnumInterpreterError::OK;
-  serializer->serialize(stream, key, polymorphicDispatcher->toInterpretation(polymorph, e));
+  data::type::EnumInterpreterError e = data::type::EnumInterpreterError::OK;
+  serializer->serialize(stream, key, polymorphicDispatcher->toInterpretation(polymorph, false, e));
 
-  if(e == data::mapping::type::EnumInterpreterError::OK) {
+  if(e == data::type::EnumInterpreterError::OK) {
     return;
   }
 
   switch(e) {
-    case data::mapping::type::EnumInterpreterError::CONSTRAINT_NOT_NULL:
+    case data::type::EnumInterpreterError::CONSTRAINT_NOT_NULL:
       throw std::runtime_error("[oatpp::mongo::bson::mapping::Serializer::serializeEnum()]: Error. Enum constraint violated - 'NotNull'.");
     default:
       throw std::runtime_error("[oatpp::mongo::bson::mapping::Serializer::serializeEnum()]: Error. Can't serialize Enum.");
@@ -261,14 +261,14 @@ void Serializer::serializeCollection(Serializer* serializer,
     bson::Utils::writeKey(stream, TypeCode::DOCUMENT_ARRAY, key);
     data::stream::BufferOutputStream innerStream;
 
-    auto dispatcher = static_cast<const data::mapping::type::__class::Collection::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
+    auto dispatcher = static_cast<const data::type::__class::Collection::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
     v_int32 index = 0;
 
     auto iterator = dispatcher->beginIteration(polymorph);
     while (!iterator->finished()) {
       const auto& value = iterator->get();
       if (value || serializer->getConfig()->includeNullFields) {
-        serializer->serialize(&innerStream, utils::conversion::int32ToStr(index), value);
+        serializer->serialize(&innerStream, utils::Conversion::int32ToStr(index), value);
         index ++;
       }
       iterator->next();
@@ -296,7 +296,7 @@ void Serializer::serializeMap(Serializer* serializer,
     bson::Utils::writeKey(stream, TypeCode::DOCUMENT_EMBEDDED, key);
     data::stream::BufferOutputStream innerStream;
 
-    auto dispatcher = static_cast<const data::mapping::type::__class::Map::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
+    auto dispatcher = static_cast<const data::type::__class::Map::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
 
     auto iterator = dispatcher->beginIteration(polymorph);
     while (!iterator->finished()) {
@@ -332,7 +332,7 @@ void Serializer::serializeObject(Serializer* serializer,
 
     data::stream::BufferOutputStream innerStream;
 
-    auto dispatcher = static_cast<const oatpp::data::mapping::type::__class::AbstractObject::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
+    auto dispatcher = static_cast<const oatpp::data::type::__class::AbstractObject::PolymorphicDispatcher*>(polymorph.getValueType()->polymorphicDispatcher);
     auto fields = dispatcher->getProperties()->getList();
     auto object = static_cast<oatpp::BaseObject*>(polymorph.get());
 
@@ -347,7 +347,7 @@ void Serializer::serializeObject(Serializer* serializer,
       }
 
       if (value || serializer->getConfig()->includeNullFields) {
-        serializer->serialize(&innerStream, field->name, value);
+        serializer->serialize(&innerStream, field->name.c_str(), value);
       }
 
     }

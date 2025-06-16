@@ -56,7 +56,7 @@ Utils::BO_TYPE Utils::detectFloatBO() {
   return result;
 }
 
-oatpp::String Utils::readCString(parser::Caret& caret) {
+oatpp::String Utils::readCString(utils::parser::Caret& caret) {
   auto label = caret.putLabel();
   if(caret.findChar(0)) {
     label.end();
@@ -75,7 +75,7 @@ void Utils::writeKey(ConsistentOutputStream *stream, TypeCode typeCode, const St
   }
 }
 
-oatpp::String Utils::readKey(parser::Caret& caret, v_char8& typeCode) {
+oatpp::String Utils::readKey(utils::parser::Caret& caret, v_char8& typeCode) {
   typeCode = *caret.getCurrData();
   caret.inc();
   auto label = caret.putLabel();
@@ -110,7 +110,7 @@ void Utils::writeInt32(ConsistentOutputStream *stream, v_int32 value, BO_TYPE va
 
 }
 
-v_int32 Utils::readInt32(parser::Caret& caret, BO_TYPE valueBO) {
+v_int32 Utils::readInt32(utils::parser::Caret& caret, BO_TYPE valueBO) {
 
   if(caret.getDataSize() - caret.getPosition() < 4) {
     caret.setError("[oatpp::mongo::bson::Utils::readInt32()]: Error. Invalid Int32 value.");
@@ -161,7 +161,7 @@ void Utils::writeInt64(ConsistentOutputStream *stream, v_int64 value, BO_TYPE va
   }
 }
 
-v_int64 Utils::readInt64(parser::Caret& caret, BO_TYPE valueBO) {
+v_int64 Utils::readInt64(utils::parser::Caret& caret, BO_TYPE valueBO) {
 
   if(caret.getDataSize() - caret.getPosition() < 8) {
     caret.setError("[oatpp::mongo::bson::Utils::readInt64()]: Error. Invalid Int64 value.");
@@ -213,7 +213,7 @@ void Utils::writeUInt64(ConsistentOutputStream *stream, v_uint64 value, BO_TYPE 
   }
 }
 
-v_uint64 Utils::readUInt64(parser::Caret& caret, BO_TYPE valueBO) {
+v_uint64 Utils::readUInt64(utils::parser::Caret& caret, BO_TYPE valueBO) {
 
   if(caret.getDataSize() - caret.getPosition() < 8) {
     caret.setError("[oatpp::mongo::bson::Utils::readUInt64()]: Error. Invalid UInt64 value.");
@@ -264,7 +264,7 @@ void Utils::writeFloat64(ConsistentOutputStream *stream, v_float64 value, BO_TYP
 
 }
 
-v_float64 Utils::readFloat64(parser::Caret& caret, BO_TYPE valueBO) {
+v_float64 Utils::readFloat64(utils::parser::Caret& caret, BO_TYPE valueBO) {
 
   if(caret.getDataSize() - caret.getPosition() < 8) {
     caret.setError("[oatpp::mongo::bson::Utils::readFloat64()]: Error. Invalid Float64 value.");
@@ -313,7 +313,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt32(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_int8& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_int8& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_32) {
     if(!checkLimitsAndAssign(value, readInt32(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of Int8");
@@ -328,7 +328,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt32(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_uint8& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_uint8& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_32) {
     if(!checkLimitsAndAssign(value, readInt32(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of UInt8");
@@ -343,7 +343,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt32(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_int16& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_int16& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_32) {
     if(!checkLimitsAndAssign(value, readInt32(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of Int16");
@@ -358,7 +358,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt32(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_uint16& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_uint16& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_32) {
     if(!checkLimitsAndAssign(value, readInt32(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of UInt16");
@@ -373,7 +373,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt32(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_int32& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_int32& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_32) {
     value = readInt32(caret);
   } else {
@@ -386,7 +386,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt64(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_uint32& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_uint32& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_64) {
     if(!checkLimitsAndAssign(value, readInt64(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of UInt32");
@@ -401,7 +401,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeInt64(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_int64& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_int64& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::INT_64) {
     value = readInt64(caret);
   } else {
@@ -414,7 +414,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeUInt64(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_uint64& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_uint64& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::TIMESTAMP) {
     value = readUInt64(caret);
   } else {
@@ -427,7 +427,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeFloat64(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_float32& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_float32& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::DOUBLE) {
     if(!checkLimitsAndAssign(value, readFloat64(caret))){
       caret.setError("[oatpp::mongo::bson::Utils::readPrimitive()]: Error. Document value is out of the range bounds of Float32");
@@ -442,7 +442,7 @@ void Utils::writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel 
   writeFloat64(stream, value);
 }
 
-void Utils::readPrimitive(parser::Caret& caret, v_float64& value, v_char8 bsonTypeCode) {
+void Utils::readPrimitive(utils::parser::Caret& caret, v_float64& value, v_char8 bsonTypeCode) {
   if(bsonTypeCode == TypeCode::DOUBLE) {
     value = readFloat64(caret);
   } else {

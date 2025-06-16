@@ -29,7 +29,7 @@
 #include "oatpp-mongo/driver/wire/Message.hpp"
 #include "oatpp-mongo/bson/mapping/ObjectMapper.hpp"
 
-#include "oatpp/core/Types.hpp"
+#include "oatpp/Types.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace command {
 

@@ -25,7 +25,7 @@
 
 #include "ObjectId.hpp"
 
-#include "oatpp/core/utils/Random.hpp"
+#include "oatpp/utils/Random.hpp"
 #include <chrono>
 
 namespace oatpp { namespace mongo { namespace bson { namespace type {
@@ -35,13 +35,13 @@ std::atomic<v_uint64> ObjectId::COUNTER(seedCounter());
 
 std::string ObjectId::seedProcessUnique() {
   v_char8 buff[5];
-  utils::random::Random::randomBytes(buff, 5);
+  utils::Random::randomBytes(buff, 5);
   return std::string((const char*)buff, 5);
 }
 
 v_uint64 ObjectId::seedCounter() {
   v_uint64 result;
-  utils::random::Random::randomBytes((p_char8)&result, 8);
+  utils::Random::randomBytes((p_char8)&result, 8);
   return result;
 }
 

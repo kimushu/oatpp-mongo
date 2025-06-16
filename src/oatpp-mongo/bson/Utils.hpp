@@ -28,9 +28,9 @@
 
 #include "./Types.hpp"
 
-#include "oatpp/core/parser/Caret.hpp"
-#include "oatpp/core/data/share/MemoryLabel.hpp"
-#include "oatpp/core/data/stream/Stream.hpp"
+#include "oatpp/utils/parser/Caret.hpp"
+#include "oatpp/data/share/MemoryLabel.hpp"
+#include "oatpp/data/stream/Stream.hpp"
 
 namespace oatpp { namespace mongo { namespace bson {
 
@@ -76,52 +76,52 @@ public:
 
 public:
 
-  static oatpp::String readCString(parser::Caret& caret);
+  static oatpp::String readCString(utils::parser::Caret& caret);
 
   static void writeKey(ConsistentOutputStream *stream, TypeCode typeCode, const StringKeyLabel &key);
-  static oatpp::String readKey(parser::Caret& caret, v_char8& typeCode);
+  static oatpp::String readKey(utils::parser::Caret& caret, v_char8& typeCode);
 
   static void writeInt32(ConsistentOutputStream *stream, v_int32 value, BO_TYPE valueBO = INT_BO);
-  static v_int32 readInt32(parser::Caret& caret, BO_TYPE valueBO = INT_BO);
+  static v_int32 readInt32(utils::parser::Caret& caret, BO_TYPE valueBO = INT_BO);
 
   static void writeInt64(ConsistentOutputStream *stream, v_int64 value, BO_TYPE valueBO = INT_BO);
-  static v_int64 readInt64(parser::Caret& caret, BO_TYPE valueBO = INT_BO);
+  static v_int64 readInt64(utils::parser::Caret& caret, BO_TYPE valueBO = INT_BO);
 
   static void writeUInt64(ConsistentOutputStream *stream, v_uint64 value, BO_TYPE valueBO = INT_BO);
-  static v_uint64 readUInt64(parser::Caret& caret, BO_TYPE valueBO = INT_BO);
+  static v_uint64 readUInt64(utils::parser::Caret& caret, BO_TYPE valueBO = INT_BO);
 
   static void writeFloat64(ConsistentOutputStream *stream, v_float64 value, BO_TYPE valueBO = FLOAT_BO);
-  static v_float64 readFloat64(parser::Caret& caret, BO_TYPE valueBO = FLOAT_BO);
+  static v_float64 readFloat64(utils::parser::Caret& caret, BO_TYPE valueBO = FLOAT_BO);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_int8 value);
-  static void readPrimitive(parser::Caret& caret, v_int8& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_int8& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_uint8 value);
-  static void readPrimitive(parser::Caret& caret, v_uint8& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_uint8& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_int16 value);
-  static void readPrimitive(parser::Caret& caret, v_int16& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_int16& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_uint16 value);
-  static void readPrimitive(parser::Caret& caret, v_uint16& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_uint16& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_int32 value);
-  static void readPrimitive(parser::Caret& caret, v_int32& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_int32& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_uint32 value);
-  static void readPrimitive(parser::Caret& caret, v_uint32& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_uint32& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_int64 value);
-  static void readPrimitive(parser::Caret& caret, v_int64& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_int64& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_uint64 value);
-  static void readPrimitive(parser::Caret& caret, v_uint64& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_uint64& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_float32 value);
-  static void readPrimitive(parser::Caret& caret, v_float32& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_float32& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, v_float64 value);
-  static void readPrimitive(parser::Caret& caret, v_float64& value, v_char8 bsonTypeCode);
+  static void readPrimitive(utils::parser::Caret& caret, v_float64& value, v_char8 bsonTypeCode);
   
   static void writePrimitive(ConsistentOutputStream *stream, const StringKeyLabel &key, bool value);
 

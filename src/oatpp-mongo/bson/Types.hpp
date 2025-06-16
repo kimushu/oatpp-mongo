@@ -27,7 +27,7 @@
 #define oatpp_mongo_bson_Types_hpp
 
 #include "type/ObjectId.hpp"
-#include "oatpp/core/Types.hpp"
+#include "oatpp/Types.hpp"
 
 namespace oatpp { namespace mongo { namespace bson {
 
@@ -149,8 +149,8 @@ enum TypeCode : v_char8 {
 
 };
 
-typedef oatpp::data::mapping::type::Type Type;
-typedef oatpp::data::mapping::type::ClassId ClassId;
+typedef oatpp::data::type::Type Type;
+typedef oatpp::data::type::ClassId ClassId;
 
 namespace __class {
 
@@ -204,23 +204,23 @@ namespace __class {
  * Inline Document - is a binary buffer containing a valid BSON document. <br>
  * May be useful in some cases.
  */
-typedef oatpp::data::mapping::type::ObjectWrapper<std::string, __class::InlineDocument> InlineDocument;
+typedef oatpp::data::type::ObjectWrapper<std::string, __class::InlineDocument> InlineDocument;
 
 /**
  * Inline Array - is a binary buffer containing a valid BSON Array. <br>
  * May be useful in some cases.
  */
-typedef oatpp::data::mapping::type::ObjectWrapper<std::string, __class::InlineArray> InlineArray;
+typedef oatpp::data::type::ObjectWrapper<std::string, __class::InlineArray> InlineArray;
 
 /**
  * ObjectId as oatpp primitive type.
  */
-typedef oatpp::data::mapping::type::Primitive<type::ObjectId, __class::ObjectId> ObjectId;
+typedef oatpp::data::type::Primitive<type::ObjectId, __class::ObjectId> ObjectId;
 
 /**
  * DateTime is an ObjectWrapper over `v_int64` and __class::DateTime.
  */
-typedef oatpp::data::mapping::type::Primitive<v_int64, __class::DateTime> DateTime;
+typedef oatpp::data::type::Primitive<v_int64, __class::DateTime> DateTime;
 
 }}}
 

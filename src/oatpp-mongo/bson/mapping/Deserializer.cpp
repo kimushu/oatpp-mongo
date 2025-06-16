@@ -31,39 +31,39 @@ Deserializer::Deserializer(const std::shared_ptr<Config>& config)
   : m_config(config)
 {
 
-  m_methods.resize(data::mapping::type::ClassId::getClassCount(), nullptr);
+  m_methods.resize(data::type::ClassId::getClassCount(), nullptr);
 
-  setDeserializerMethod(data::mapping::type::__class::String::CLASS_ID, &Deserializer::deserializeString);
+  setDeserializerMethod(data::type::__class::String::CLASS_ID, &Deserializer::deserializeString);
 
-  setDeserializerMethod(data::mapping::type::__class::Int8::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int8>);
-  setDeserializerMethod(data::mapping::type::__class::UInt8::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt8>);
+  setDeserializerMethod(data::type::__class::Int8::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int8>);
+  setDeserializerMethod(data::type::__class::UInt8::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt8>);
 
-  setDeserializerMethod(data::mapping::type::__class::Int16::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int16>);
-  setDeserializerMethod(data::mapping::type::__class::UInt16::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt16>);
+  setDeserializerMethod(data::type::__class::Int16::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int16>);
+  setDeserializerMethod(data::type::__class::UInt16::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt16>);
 
-  setDeserializerMethod(data::mapping::type::__class::Int32::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int32>);
-  setDeserializerMethod(data::mapping::type::__class::UInt32::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt32>);
+  setDeserializerMethod(data::type::__class::Int32::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int32>);
+  setDeserializerMethod(data::type::__class::UInt32::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt32>);
 
-  setDeserializerMethod(data::mapping::type::__class::Int64::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int64>);
-  setDeserializerMethod(data::mapping::type::__class::UInt64::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt64>);
+  setDeserializerMethod(data::type::__class::Int64::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::Int64>);
+  setDeserializerMethod(data::type::__class::UInt64::CLASS_ID, &Deserializer::deserializePrimitive<oatpp::UInt64>);
 
-  setDeserializerMethod(data::mapping::type::__class::Float32::CLASS_ID, &Deserializer::deserializePrimitive<Float32>);
-  setDeserializerMethod(data::mapping::type::__class::Float64::CLASS_ID, &Deserializer::deserializePrimitive<Float64>);
-  setDeserializerMethod(data::mapping::type::__class::Boolean::CLASS_ID, &Deserializer::deserializeBoolean);
+  setDeserializerMethod(data::type::__class::Float32::CLASS_ID, &Deserializer::deserializePrimitive<Float32>);
+  setDeserializerMethod(data::type::__class::Float64::CLASS_ID, &Deserializer::deserializePrimitive<Float64>);
+  setDeserializerMethod(data::type::__class::Boolean::CLASS_ID, &Deserializer::deserializeBoolean);
 
-  setDeserializerMethod(data::mapping::type::__class::Any::CLASS_ID, &Deserializer::deserializeAny);
-  setDeserializerMethod(data::mapping::type::__class::AbstractEnum::CLASS_ID, &Deserializer::deserializeEnum);
-  setDeserializerMethod(data::mapping::type::__class::AbstractObject::CLASS_ID, &Deserializer::deserializeObject);
+  setDeserializerMethod(data::type::__class::Any::CLASS_ID, &Deserializer::deserializeAny);
+  setDeserializerMethod(data::type::__class::AbstractEnum::CLASS_ID, &Deserializer::deserializeEnum);
+  setDeserializerMethod(data::type::__class::AbstractObject::CLASS_ID, &Deserializer::deserializeObject);
 
   //----------------
   // Collections
 
-  setDeserializerMethod(data::mapping::type::__class::AbstractVector::CLASS_ID, &Deserializer::deserializeCollection);
-  setDeserializerMethod(data::mapping::type::__class::AbstractList::CLASS_ID, &Deserializer::deserializeCollection);
-  setDeserializerMethod(data::mapping::type::__class::AbstractUnorderedSet::CLASS_ID, &Deserializer::deserializeCollection);
+  setDeserializerMethod(data::type::__class::AbstractVector::CLASS_ID, &Deserializer::deserializeCollection);
+  setDeserializerMethod(data::type::__class::AbstractList::CLASS_ID, &Deserializer::deserializeCollection);
+  setDeserializerMethod(data::type::__class::AbstractUnorderedSet::CLASS_ID, &Deserializer::deserializeCollection);
 
-  setDeserializerMethod(data::mapping::type::__class::AbstractPairList::CLASS_ID, &Deserializer::deserializeMap);
-  setDeserializerMethod(data::mapping::type::__class::AbstractUnorderedMap::CLASS_ID, &Deserializer::deserializeMap);
+  setDeserializerMethod(data::type::__class::AbstractPairList::CLASS_ID, &Deserializer::deserializeMap);
+  setDeserializerMethod(data::type::__class::AbstractUnorderedMap::CLASS_ID, &Deserializer::deserializeMap);
 
 
   //----------------
@@ -78,7 +78,7 @@ Deserializer::Deserializer(const std::shared_ptr<Config>& config)
 
 }
 
-void Deserializer::setDeserializerMethod(const data::mapping::type::ClassId& classId, DeserializerMethod method) {
+void Deserializer::setDeserializerMethod(const data::type::ClassId& classId, DeserializerMethod method) {
   const v_uint32 id = classId.id;
   if(id >= m_methods.size()) {
     m_methods.resize(id + 1, nullptr);
@@ -86,14 +86,14 @@ void Deserializer::setDeserializerMethod(const data::mapping::type::ClassId& cla
   m_methods[id] = method;
 }
 
-void Deserializer::skipCString(parser::Caret& caret) {
+void Deserializer::skipCString(utils::parser::Caret& caret) {
   caret.findChar(0);
   if(!caret.canContinueAtChar(0, 1)) {
     caret.setError("[oatpp::mongo::bson::mapping::Deserializer::skipCString()]: Error. Unterminated CString.");
   }
 }
 
-void Deserializer::skipSizedElement(parser::Caret& caret, v_int32 additionalBytes) {
+void Deserializer::skipSizedElement(utils::parser::Caret& caret, v_int32 additionalBytes) {
   v_int32 size = Utils::readInt32(caret);
   if (size + caret.getPosition() + additionalBytes > caret.getDataSize() || size + additionalBytes < 0) {
     caret.setError("[oatpp::mongo::bson::mapping::Deserializer::skipSizedElement()]: Error. Invalid element size.");
@@ -101,7 +101,7 @@ void Deserializer::skipSizedElement(parser::Caret& caret, v_int32 additionalByte
   caret.inc(size + additionalBytes);
 }
 
-void Deserializer::skipElement(parser::Caret& caret, v_char8 bsonTypeCode) {
+void Deserializer::skipElement(utils::parser::Caret& caret, v_char8 bsonTypeCode) {
 
   switch(bsonTypeCode) {
 
@@ -170,7 +170,7 @@ const Type* Deserializer::guessType(v_char8 bsonTypeCode) {
 }
 
 oatpp::Void Deserializer::deserializeBoolean(Deserializer* deserializer,
-                                             parser::Caret& caret,
+                                             utils::parser::Caret& caret,
                                              const Type* const type,
                                              v_char8 bsonTypeCode)
 {
@@ -201,7 +201,7 @@ oatpp::Void Deserializer::deserializeBoolean(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeDateTime(Deserializer* deserializer,
-                                              parser::Caret& caret,
+                                              utils::parser::Caret& caret,
                                               const Type* const type,
                                               v_char8 bsonTypeCode)
 {
@@ -224,7 +224,7 @@ oatpp::Void Deserializer::deserializeDateTime(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeString(Deserializer* deserializer,
-                                            parser::Caret& caret,
+                                            utils::parser::Caret& caret,
                                             const Type* const type,
                                             v_char8 bsonTypeCode)
 {
@@ -258,7 +258,7 @@ oatpp::Void Deserializer::deserializeString(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeInlineDocs(Deserializer* deserializer,
-                                                parser::Caret& caret,
+                                                utils::parser::Caret& caret,
                                                 const Type* const type,
                                                 v_char8 bsonTypeCode)
 {
@@ -299,7 +299,7 @@ oatpp::Void Deserializer::deserializeInlineDocs(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeObjectId(Deserializer* deserializer,
-                                              parser::Caret& caret,
+                                              utils::parser::Caret& caret,
                                               const Type* const type,
                                               v_char8 bsonTypeCode)
 {
@@ -332,7 +332,7 @@ oatpp::Void Deserializer::deserializeObjectId(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeAny(Deserializer* deserializer,
-                                         parser::Caret& caret,
+                                         utils::parser::Caret& caret,
                                          const Type* const type,
                                          v_char8 bsonTypeCode)
 {
@@ -342,7 +342,7 @@ oatpp::Void Deserializer::deserializeAny(Deserializer* deserializer,
     const Type *const fieldType = guessType(bsonTypeCode);
     if (fieldType != nullptr) {
       auto fieldValue = deserializer->deserialize(caret, fieldType, bsonTypeCode);
-      auto anyHandle = std::make_shared<data::mapping::type::AnyHandle>(fieldValue.getPtr(), fieldValue.getValueType());
+      auto anyHandle = std::make_shared<data::type::AnyHandle>(fieldValue.getPtr(), fieldValue.getValueType());
       return oatpp::Void(anyHandle, Any::Class::getType());
     }
 
@@ -353,28 +353,28 @@ oatpp::Void Deserializer::deserializeAny(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeEnum(Deserializer* deserializer,
-                                          parser::Caret& caret,
+                                          utils::parser::Caret& caret,
                                           const Type* const type,
                                           v_char8 bsonTypeCode)
 {
 
-  auto polymorphicDispatcher = static_cast<const data::mapping::type::__class::AbstractEnum::PolymorphicDispatcher*>(
+  auto polymorphicDispatcher = static_cast<const data::type::__class::AbstractEnum::PolymorphicDispatcher*>(
     type->polymorphicDispatcher
   );
 
-  data::mapping::type::EnumInterpreterError e = data::mapping::type::EnumInterpreterError::OK;
+  data::type::EnumInterpreterError e = data::type::EnumInterpreterError::OK;
   const auto& value = deserializer->deserialize(caret, polymorphicDispatcher->getInterpretationType(), bsonTypeCode);
   if(caret.hasError()) {
     return nullptr;
   }
-  const auto& result = polymorphicDispatcher->fromInterpretation(value, e);
+  const auto& result = polymorphicDispatcher->fromInterpretation(value, false, e);
 
-  if(e == data::mapping::type::EnumInterpreterError::OK) {
+  if(e == data::type::EnumInterpreterError::OK) {
     return result;
   }
 
   switch(e) {
-    case data::mapping::type::EnumInterpreterError::CONSTRAINT_NOT_NULL:
+    case data::type::EnumInterpreterError::CONSTRAINT_NOT_NULL:
       caret.setError("[oatpp::mongo::bson::mapping::Deserializer::deserializeEnum()]: Error. Enum constraint violated - 'NotNull'.");
       break;
     default:
@@ -386,7 +386,7 @@ oatpp::Void Deserializer::deserializeEnum(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeCollection(Deserializer* deserializer,
-                                                parser::Caret& caret,
+                                                utils::parser::Caret& caret,
                                                 const Type* const type,
                                                 v_char8 bsonTypeCode)
 {
@@ -407,9 +407,9 @@ oatpp::Void Deserializer::deserializeCollection(Deserializer* deserializer,
         return nullptr;
       }
 
-      parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
+      utils::parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
 
-      auto dispatcher = static_cast<const data::mapping::type::__class::Collection::PolymorphicDispatcher*>(type->polymorphicDispatcher);
+      auto dispatcher = static_cast<const data::type::__class::Collection::PolymorphicDispatcher*>(type->polymorphicDispatcher);
       auto collection = dispatcher->createObject();
 
       const Type* itemType = dispatcher->getItemType();
@@ -425,7 +425,7 @@ oatpp::Void Deserializer::deserializeCollection(Deserializer* deserializer,
         }
 
         bool success;
-        v_int32 keyIntValue = utils::conversion::strToInt32(key, success);
+        v_int32 keyIntValue = utils::Conversion::strToInt32(key, success);
         if(!success || keyIntValue != expectedIndex) {
           caret.inc(innerCaret.getPosition());
           caret.setError("[oatpp::mongo::bson::mapping::Deserializer::deserializeCollection()]: Error. Array invalid index value. Looks like it's not an array.");
@@ -473,7 +473,7 @@ oatpp::Void Deserializer::deserializeCollection(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeMap(Deserializer* deserializer,
-                                         parser::Caret& caret,
+                                         utils::parser::Caret& caret,
                                          const Type* const type,
                                          v_char8 bsonTypeCode)
 {
@@ -494,13 +494,13 @@ oatpp::Void Deserializer::deserializeMap(Deserializer* deserializer,
         return nullptr;
       }
 
-      parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
+      utils::parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
 
-      auto dispatcher = static_cast<const data::mapping::type::__class::Map::PolymorphicDispatcher*>(type->polymorphicDispatcher);
+      auto dispatcher = static_cast<const data::type::__class::Map::PolymorphicDispatcher*>(type->polymorphicDispatcher);
       auto map = dispatcher->createObject();
 
       const Type* keyType = dispatcher->getKeyType();
-      if(keyType->classId.id != oatpp::data::mapping::type::__class::String::CLASS_ID.id){
+      if(keyType->classId.id != oatpp::data::type::__class::String::CLASS_ID.id){
         throw std::runtime_error("[oatpp::mongo::bson::mapping::Deserializer::deserializeMap()]: Invalid bson map key. Key should be String");
       }
 
@@ -547,7 +547,7 @@ oatpp::Void Deserializer::deserializeMap(Deserializer* deserializer,
 }
 
 oatpp::Void Deserializer::deserializeObject(Deserializer* deserializer,
-                                            parser::Caret& caret,
+                                            utils::parser::Caret& caret,
                                             const Type* const type,
                                             v_char8 bsonTypeCode)
 {
@@ -568,9 +568,9 @@ oatpp::Void Deserializer::deserializeObject(Deserializer* deserializer,
         return nullptr;
       }
 
-      parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
+      utils::parser::Caret innerCaret(caret.getCurrData(), docSize - 4);
 
-      auto dispatcher = static_cast<const oatpp::data::mapping::type::__class::AbstractObject::PolymorphicDispatcher*>(type->polymorphicDispatcher);
+      auto dispatcher = static_cast<const oatpp::data::type::__class::AbstractObject::PolymorphicDispatcher*>(type->polymorphicDispatcher);
       auto object = dispatcher->createObject();
       const auto& fieldsMap = dispatcher->getProperties()->getMap();
 
@@ -639,7 +639,7 @@ oatpp::Void Deserializer::deserializeObject(Deserializer* deserializer,
       caret.inc(innerCaret.getPosition());
 
       for(auto& p : polymorphs) {
-        parser::Caret polyCaret(p.unparsedData);
+        utils::parser::Caret polyCaret(p.unparsedData);
         auto selectedType = p.field->info.typeSelector->selectType(static_cast<oatpp::BaseObject *>(object.get()));
         auto value = deserializer->deserialize(polyCaret, selectedType, p.valueType);
         oatpp::Any any(value);
@@ -657,7 +657,7 @@ oatpp::Void Deserializer::deserializeObject(Deserializer* deserializer,
 
 }
 
-oatpp::Void Deserializer::deserialize(parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode) {
+oatpp::Void Deserializer::deserialize(utils::parser::Caret& caret, const Type* const type, v_char8 bsonTypeCode) {
   auto id = type->classId.id;
   auto& method = m_methods[id];
   if(method) {

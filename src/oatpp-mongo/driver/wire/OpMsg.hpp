@@ -26,9 +26,9 @@
 #ifndef oatpp_mongo_driver_wire_OpMsg_hpp
 #define oatpp_mongo_driver_wire_OpMsg_hpp
 
-#include "oatpp/core/data/stream/Stream.hpp"
-#include "oatpp/core/parser/Caret.hpp"
-#include "oatpp/core/Types.hpp"
+#include "oatpp/data/stream/Stream.hpp"
+#include "oatpp/utils/parser/Caret.hpp"
+#include "oatpp/Types.hpp"
 
 #include <list>
 
@@ -52,7 +52,7 @@ public:
   v_uint8 getType() {return m_type;}
 
   virtual void writeToStream(data::stream::ConsistentOutputStream* stream) = 0;
-  virtual bool readFromCaret(parser::Caret& caret) = 0;
+  virtual bool readFromCaret(utils::parser::Caret& caret) = 0;
 
 };
 
@@ -79,7 +79,7 @@ public:
 public:
 
   void writeToStream(data::stream::ConsistentOutputStream* stream);
-  bool readFromCaret(parser::Caret& caret);
+  bool readFromCaret(utils::parser::Caret& caret);
 
 };
 
@@ -93,7 +93,7 @@ public:
 public:
 
   void writeToStream(data::stream::ConsistentOutputStream* stream) override;
-  bool readFromCaret(parser::Caret& caret) override;
+  bool readFromCaret(utils::parser::Caret& caret) override;
 
 };
 
@@ -112,7 +112,7 @@ public:
 
   void writeToStream(data::stream::ConsistentOutputStream* stream) override;
 
-  bool readFromCaret(parser::Caret& caret) override;
+  bool readFromCaret(utils::parser::Caret& caret) override;
 
 };
 

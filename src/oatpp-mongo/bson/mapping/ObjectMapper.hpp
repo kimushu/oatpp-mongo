@@ -29,7 +29,7 @@
 #include "./Serializer.hpp"
 #include "./Deserializer.hpp"
 
-#include "oatpp/core/data/mapping/ObjectMapper.hpp"
+#include "oatpp/data/mapping/ObjectMapper.hpp"
 
 namespace oatpp { namespace mongo { namespace bson { namespace mapping {
 
@@ -41,7 +41,7 @@ namespace oatpp { namespace mongo { namespace bson { namespace mapping {
 class ObjectMapper : public oatpp::base::Countable, public oatpp::data::mapping::ObjectMapper {
 private:
   static Info& getMapperInfo() {
-    static Info info("application/bson");
+    static Info info("application", "bson");
     return info;
   }
 private:
@@ -89,16 +89,18 @@ public:
    * Implementation of &id:oatpp::data::mapping::ObjectMapper::write;.
    * @param stream - stream to write serializerd data to &id:oatpp::data::stream::ConsistentOutputStream;.
    * @param variant - object to serialize &id:oatpp::Void;.
+   * @param errorStack - See &id:oatpp::data::mapping::ErrorStack;.
    */
-  void write(data::stream::ConsistentOutputStream* stream, const oatpp::Void& variant) const override;
+  void write(data::stream::ConsistentOutputStream* stream, const oatpp::Void& variant, oatpp::data::mapping::ErrorStack& errorStack) const override;
 
   /**
    * Implementation of &id:oatpp::data::mapping::ObjectMapper::read;.
-   * @param caret - &id:oatpp::parser::Caret;.
-   * @param type - type of resultant object &id:oatpp::data::mapping::type::Type;.
+   * @param caret - &id:oatpp::utils::parser::Caret;.
+   * @param type - type of resultant object &id:oatpp::data::type::Type;.
+   * @param errorStack - See &id:oatpp::data::mapping::ErrorStack;.
    * @return - &id:oatpp::Void; holding resultant object.
    */
-  oatpp::Void read(oatpp::parser::Caret& caret, const oatpp::data::mapping::type::Type* const type) const override;
+  oatpp::Void read(oatpp::utils::parser::Caret& caret, const oatpp::data::type::Type* const type, oatpp::data::mapping::ErrorStack& errorStack) const override;
 
 
   /**

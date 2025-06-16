@@ -29,10 +29,10 @@
 #include "oatpp-mongo/bson/Utils.hpp"
 #include "oatpp-mongo/bson/Types.hpp"
 
-#include "oatpp/core/data/share/MemoryLabel.hpp"
-#include "oatpp/core/data/stream/BufferStream.hpp"
-#include "oatpp/core/utils/ConversionUtils.hpp"
-#include "oatpp/core/Types.hpp"
+#include "oatpp/data/share/MemoryLabel.hpp"
+#include "oatpp/data/stream/BufferStream.hpp"
+#include "oatpp/utils/Conversion.hpp"
+#include "oatpp/Types.hpp"
 
 namespace oatpp { namespace mongo { namespace bson { namespace mapping {
 
@@ -183,10 +183,10 @@ public:
 
   /**
    * Set serializer method for type.
-   * @param classId - &id:oatpp::data::mapping::type::ClassId;.
+   * @param classId - &id:oatpp::data::type::ClassId;.
    * @param method - `typedef void (*SerializerMethod)(Serializer*, data::stream::ConsistentOutputStream*, const oatpp::Void&)`.
    */
-  void setSerializerMethod(const data::mapping::type::ClassId& classId, SerializerMethod method);
+  void setSerializerMethod(const data::type::ClassId& classId, SerializerMethod method);
 
   /**
    * Serialize object to stream.

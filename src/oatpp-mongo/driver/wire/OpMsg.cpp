@@ -27,7 +27,7 @@
 
 #include "oatpp-mongo/bson/Utils.hpp"
 
-#include "oatpp/core/data/stream/BufferStream.hpp"
+#include "oatpp/data/stream/BufferStream.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace wire {
 
@@ -50,7 +50,7 @@ void OpMsg::writeToStream(data::stream::ConsistentOutputStream* stream) {
 
 }
 
-bool OpMsg::readFromCaret(parser::Caret& caret) {
+bool OpMsg::readFromCaret(utils::parser::Caret& caret) {
 
   sections.clear();
 
@@ -94,7 +94,7 @@ void BodySection::writeToStream(data::stream::ConsistentOutputStream* stream) {
   *stream << document;
 }
 
-bool BodySection::readFromCaret(parser::Caret& caret) {
+bool BodySection::readFromCaret(utils::parser::Caret& caret) {
   if(caret.canContinueAtChar(TYPE_BODY, 1)) {
     auto label = caret.putLabel();
     v_int64 docSize = bson::Utils::readInt32(caret);
@@ -132,7 +132,7 @@ void DocumentSequenceSection::writeToStream(data::stream::ConsistentOutputStream
 
 }
 
-bool DocumentSequenceSection::readFromCaret(parser::Caret& caret) {
+bool DocumentSequenceSection::readFromCaret(utils::parser::Caret& caret) {
 
   if(caret.canContinueAtChar(TYPE_DOCUMENT_SEQUENCE, 1)) {
 

@@ -26,9 +26,9 @@
 #ifndef oatpp_mongo_driver_wire_Message_hpp
 #define oatpp_mongo_driver_wire_Message_hpp
 
-#include "oatpp/core/data/stream/Stream.hpp"
-#include "oatpp/core/parser/Caret.hpp"
-#include "oatpp/core/Types.hpp"
+#include "oatpp/data/stream/Stream.hpp"
+#include "oatpp/utils/parser/Caret.hpp"
+#include "oatpp/Types.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace wire {
 
@@ -46,7 +46,7 @@ public:
   MessageHeader(v_int32 length, v_int32 msgOpCode);
 
   void writeToStream(data::stream::ConsistentOutputStream* stream) const;
-  bool readFromCaret(parser::Caret& caret);
+  bool readFromCaret(utils::parser::Caret& caret);
 
 };
 

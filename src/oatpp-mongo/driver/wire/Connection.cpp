@@ -26,7 +26,7 @@
 #include "Connection.hpp"
 
 #include "oatpp-mongo/bson/Utils.hpp"
-#include "oatpp/core/data/stream/BufferStream.hpp"
+#include "oatpp/data/stream/BufferStream.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace wire {
 
@@ -67,7 +67,7 @@ v_io_size Connection::read(Message& message) {
     return res1;
   }
 
-  parser::Caret caret((const char*)headerDataBuffer, headerSize);
+  utils::parser::Caret caret((const char*)headerDataBuffer, headerSize);
   message.header.readFromCaret(caret);
 
   oatpp::String dataBuffer(message.header.messageLength - headerSize);

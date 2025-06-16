@@ -27,8 +27,8 @@
 #define oatpp_mongo_driver_wire_Connection_hpp
 
 #include "./Message.hpp"
-#include "oatpp/core/provider/Provider.hpp"
-#include "oatpp/core/data/stream/Stream.hpp"
+#include "oatpp/provider/Provider.hpp"
+#include "oatpp/data/stream/Stream.hpp"
 
 namespace oatpp { namespace mongo { namespace driver { namespace wire {
 
